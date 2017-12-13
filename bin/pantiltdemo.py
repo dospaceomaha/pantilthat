@@ -40,10 +40,10 @@ while c != ord('q'):
 		pantilthat.servo_two(z)
 		z=z-1
 	if c == ord(' '):
-		name='image'+`random.randrange(0001,1000)`+'.jpg'
+		name='image'+`random.randrange(1,1000)`+'.jpg'
 		camera.capture(name)
 	if c == ord('v'):
-		name='video'+`random.randrange(0001,1000)`+'.h264'
+		name='video'+`random.randrange(1,1000)`+'.h264'
 		camera.start_recording(name)
 		sleep(5)
 		camera.stop_recording
