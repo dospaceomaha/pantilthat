@@ -21,6 +21,52 @@ camera.hflip = True
 camera.start_preview()
 sleep(2)
 
+#Functions
+def nope():
+	if x >= 0:
+		pantilthat.servo_one(-90)
+		sleep(.1)
+		pantilthat.servo_one(90)
+		sleep(.1)
+		pantilthat.servo_one(-90)
+		sleep(.1)
+		pantilthat.servo_one(90)
+		sleep(.1)
+		pantilthat.servo_one(0)
+	else:
+		pantilthat.servo_one(90)
+		sleep(.1)
+		pantilthat.servo_one(-90)
+		sleep(.1)
+		pantilthat.servo_one(90)
+		sleep(.1)
+		pantilthat.servo_one(-90)
+		sleep(.1)
+		pantilthat.servo_one(0)
+		
+def yep():
+	if z >= 0:
+		pantilthat.servo_two(-90)
+		sleep(.1)
+		pantilthat.servo_two(90)
+		sleep(.1)
+		pantilthat.servo_two(-90)
+		sleep(.1)
+		pantilthat.servo_two(90)
+		sleep(.1)
+		pantilthat.servo_two(0)
+	else:
+		pantilthat.servo_two(90)
+		sleep(.1)
+		pantilthat.servo_two(-90)
+		sleep(.1)
+		pantilthat.servo_two(90)
+		sleep(.1)
+		pantilthat.servo_two(-90)
+		sleep(.1)
+		pantilthat.servo_two(0)
+
+
 #Main Program Loop
 x,z,i=0,0,0
 pantilthat.servo_one(x)
@@ -47,18 +93,13 @@ while c != ord('q'):
 		camera.start_recording(name)
 		sleep(5)
 		camera.stop_recording
-#	if c == ord('t'):
-#		if y >= 0:
-#			pantilthat.servo_two(-90)
-#			sleep(1)
-#			pantilthat.servo_two(90)
-#			sleep(1)
-#			pantilthat.servo_two(-90)
-#			sleep(1)
-#			pantilthat.servo_two(90)
-#			sleep(1)
-#			pantilthat.servo_two(0)
-#			sleep(1)
+	if c == ord('y'):
+		yep()
+	if c == ord('n'):
+		nope()
+
+
+
 
 
 
