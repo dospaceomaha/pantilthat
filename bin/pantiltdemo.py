@@ -3,6 +3,7 @@
 import pantilthat
 import curses
 import random
+import threading
 from picamera import PiCamera
 from time import sleep
 
@@ -22,49 +23,73 @@ camera.start_preview()
 sleep(2)
 
 #Functions
-def nope():
+def nope( x ):
 	if x >= 0:
 		pantilthat.servo_one(-90)
-		sleep(.1)
+		sleep(.15)
 		pantilthat.servo_one(90)
-		sleep(.1)
+		sleep(.15)
 		pantilthat.servo_one(-90)
-		sleep(.1)
+		sleep(.15)
 		pantilthat.servo_one(90)
-		sleep(.1)
+		sleep(.15)
 		pantilthat.servo_one(0)
 	else:
 		pantilthat.servo_one(90)
-		sleep(.1)
+		sleep(.15)
 		pantilthat.servo_one(-90)
-		sleep(.1)
+		sleep(.15)
 		pantilthat.servo_one(90)
-		sleep(.1)
+		sleep(.15)
 		pantilthat.servo_one(-90)
-		sleep(.1)
-		pantilthat.servo_one(0)
-		
-def yep():
+		sleep(.15)
+		pantilthat.servo_one(x)
+		return
+
+def yep( z ):
 	if z >= 0:
 		pantilthat.servo_two(-90)
-		sleep(.1)
+		sleep(.15)
 		pantilthat.servo_two(90)
-		sleep(.1)
+		sleep(.15)
 		pantilthat.servo_two(-90)
-		sleep(.1)
+		sleep(.15)
 		pantilthat.servo_two(90)
-		sleep(.1)
+		sleep(.15)
 		pantilthat.servo_two(0)
 	else:
 		pantilthat.servo_two(90)
-		sleep(.1)
+		sleep(.15)
 		pantilthat.servo_two(-90)
-		sleep(.1)
+		sleep(.15)
 		pantilthat.servo_two(90)
-		sleep(.1)
+		sleep(.15)
 		pantilthat.servo_two(-90)
-		sleep(.1)
-		pantilthat.servo_two(0)
+		sleep(.15)
+		pantilthat.servo_two(x)
+		return
+
+def vid( name ):
+	camera.start_recording(name)
+	sleep(5)
+	camera.stop_recording
+	return
+	
+def lft( x ):
+	pantilthat.servo_one(x)
+	return
+	
+def rgt( x ):
+	pantilthat.servo_one(x)
+	return
+	
+def up( z ):
+	pantilthat.servo_two(z)
+	return
+
+def dwn( z ):
+	pantilthat.servo_two(z)
+	return
 
 
 #Main Program Loop
@@ -73,30 +98,57 @@ pantilthat.servo_one(x)
 pantilthat.servo_one(z)
 while c != ord('q'):
 	c=stdscr.getch()
-	if c == ord('d') and x <= 90:
-		pantilthat.servo_one(x)
+	if c == ord('a') and x <= 90:
+		for i in range(3):
+			a = threading.Thread(target=lft, args=(x,))
+			a.setDaemon(True)
+			a.start()
 		x=x+1
-	if c == ord('a') and x >= -90:
-		pantilthat.servo_one(x)
+
+	if c == ord('d') and x >= -90:
+		for i in range(3):
+			a = threading.Thread(target=rgt, args=(x,))
+			a.setDaemon(True)
+			a.start()
 		x=x-1
+
 	if c == ord('s') and z <=90:
-		pantilthat.servo_two(z)
+		for i in range(3):
+			a = threading.Thread(target=up, args=(z,))
+			a.setDaemon(True)
+			a.start()
 		z=z+1
+
 	if c == ord('w') and z >= -90:
-		pantilthat.servo_two(z)
+		for i in range(3):
+			a = threading.Thread(target=dwn, args=(z,))
+			a.setDaemon(True)
+			a.start()
 		z=z-1
+
 	if c == ord(' '):
 		name='image'+`random.randrange(1,1000)`+'.jpg'
 		camera.capture(name)
+
 	if c == ord('v'):
 		name='video'+`random.randrange(1,1000)`+'.h264'
-		camera.start_recording(name)
-		sleep(5)
-		camera.stop_recording
+		for i in range(3):
+			v = threading.Thread(target=vid, args=(name,))
+			v.setDaemon(True)
+			v.start()
+
 	if c == ord('y'):
-		yep()
+		for i in range(3):
+			y = threading.Thread(target=yep, args=(z,))
+			y.setDaemon(True)
+			y.start()
+
 	if c == ord('n'):
-		nope()
+		for i in range(3):
+			n = threading.Thread(target=nope, args=(x,))
+			n.setDaemon(True)
+			n.start()
+		#nope()
 
 
 
