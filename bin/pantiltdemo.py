@@ -13,6 +13,7 @@ sleep(2)
 
 curses.noecho()
 curses.cbreak()
+#stdscr.keypad(True)
 c = ''
 
 #camera
@@ -69,9 +70,9 @@ def yep( z ):
 		pantilthat.servo_two(x)
 		return
 
-def vid( name ):
+def vid( name, i ):
 	camera.start_recording(name)
-	sleep(5)
+	sleep(i)
 	camera.stop_recording
 	return
 	
@@ -93,7 +94,7 @@ def dwn( z ):
 
 
 #Main Program Loop
-x,z,i=0,0,0
+x,z,i=0,0,5
 pantilthat.servo_one(x)
 pantilthat.servo_one(z)
 while c != ord('q'):
@@ -133,7 +134,7 @@ while c != ord('q'):
 	if c == ord('v'):
 		name='video'+`random.randrange(1,1000)`+'.h264'
 		for i in range(3):
-			v = threading.Thread(target=vid, args=(name,))
+			v = threading.Thread(target=vid, args=(name, i,))
 			v.setDaemon(True)
 			v.start()
 
@@ -148,7 +149,15 @@ while c != ord('q'):
 			n = threading.Thread(target=nope, args=(x,))
 			n.setDaemon(True)
 			n.start()
-		#nope()
+	
+#	if c == curses.KEY_UP
+#		if i < 10
+#			i+=1
+	
+#	if c == curses.KEY_DOWN
+#		if i > 0
+#		i-=1
+		
 
 
 
@@ -157,5 +166,5 @@ while c != ord('q'):
 
 #End
 camera.stop_preview()
-curses.nocbreak(); stdscr.keypad(0); curses.echo()
+curses.nocbreak(); stdscr.keypad(0); curses.echo(); curses.keypad( False )
 curses.endwin()
