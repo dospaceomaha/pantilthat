@@ -13,7 +13,7 @@ sleep(2)
 
 curses.noecho()
 curses.cbreak()
-#stdscr.keypad(True)
+stdscr.keypad(True) #Activate arrow keys
 c = ''
 
 #camera
@@ -149,12 +149,12 @@ while c != ord('q'):
 			n = threading.Thread(target=nope, args=(x,))
 			n.setDaemon(True)
 			n.start()
-	
-#	if c == curses.KEY_UP
+# If you can get this to work then please go ahead	
+#	if c == curses.KEY_UP #Increase the length of the video up to 10 seconds, key_up doesn't work
 #		if i < 10
 #			i+=1
-	
-#	if c == curses.KEY_DOWN
+#
+#	if c == curses.KEY_DOWN #Decrease the length of the video down to 1 second, key_down doesn't work
 #		if i > 0
 #		i-=1
 		
